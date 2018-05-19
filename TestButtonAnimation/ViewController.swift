@@ -10,16 +10,30 @@ import UIKit
 
 class ViewController: UIViewController {
 
+  @IBOutlet var buttons: [UIButton]!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Do any additional setup after loading the view, typically from a nib.
+    for button in buttons {
+      button.setTitle(nil, for: [])
+      button.setImage(Buttons.imageOfGo, for: [])
+    }
   }
 
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+  @IBAction func touchDown(_ sender: UIButton) {
+    print("Touch Down")
+    sender.setImage(Buttons.imageOfStop, for: [])
   }
 
+  @IBAction func touchUp(_ sender: UIButton) {
+    print("Touch up")
+    sender.layer.removeAllAnimations()
+    UIView.transition(with: sender, duration: 1.0, options: [.transitionCrossDissolve, .allowUserInteraction], animations: {
+      sender.setImage(Buttons.imageOfGo, for: [])
+    }) { (completed) in
+      print("Animated completed - \(completed)")
+    }
+  }
 
 }
 
